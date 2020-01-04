@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Hello React.js world</title>
+    <!--react 시작을 위한 CDN-->
+    <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <!--JSX 사용을 위한 babel tag 추가-->
+    <!-- babel 의 역할: trans filing-->
+    <script crossorigin src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+  </head>
+  <body>
+    <div id="app"></div>
+<!-- JSX 사용 전, 순수 react 라이브러리 -->
+<!--    <script>-->
+<!--      var target = document.getElementById("app");-->
+<!--      var contents = React.createElement("h1", null, "안녕 리액트 세상");-->
+<!--      ReactDOM.render( contents, target );-->
+<!--    </script>-->
+
+    <!-- JSX 사용 후-->
+    <script type="text/babel">
+      var target = document.getElementById("app");
+      // var contents = React.createElement("h1", null, "Hello React.js");
+      var contents = <div id="TITLE">
+              <h1>Hello React.js</h1>
+                <ul>
+                  <li>리액트</li>
+                  <li>세상</li>
+                </ul>
+              </div>; <!-- babel 이 multi line 처리를 해줌 -->
+      ReactDOM.render( contents, target );
+    </script>
+  </body>
+</html>
