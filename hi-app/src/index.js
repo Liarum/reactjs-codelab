@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
@@ -27,6 +27,7 @@ const jsx = (
 let now = new Date().toLocaleString();
 let myEmail = "lar404@naver.com";
 
+//1. JSX 문법
 const jsx = (
     <div>
         <div title={myEmail}>
@@ -38,6 +39,186 @@ const jsx = (
         </div>
     </div>
 );
-ReactDOM.render(jsx, document.getElementById('root'));
+
+//2. 컴포넌트
+const HelloComponent = function(props) {
+    console.log(props)
+    return <h1>안녕 ! {props.name}</h1>;
+};
+
+const jsxComponent = (
+    <div>
+        <HelloComponent name="컴포넌트"/>
+        <HelloComponent name="리액트"/>
+        <HelloComponent name="리액트 변수 타입" str="10" num={10} bool={false} obj={{a:10, b:20}} />
+    </div>
+)
+
+//3. 클래스
+class StatefulComponent extends React.Component {
+    constructor (props) {
+        super (props);
+    }
+    render() {
+        return <h1> 안녕 {this.props.name} </h1>;
+    }
+}
+const jsxClass = (
+    <StatefulComponent name="클래스 컴포넌트" />
+);
+
+//4. 이벤트 예제
+// function App(props) {
+//     function print(e) {
+//         console.log("클릭됨!", e);
+//     }
+//     return (
+//         <button onClick={print}>
+//             브라우저의 콘솔창을 확인하세요!
+//         </button>
+//     );
+// }
+
+// 화살표 함수 예제
+function App2(props) {
+    function print(param) {
+        console.log(param + " 클릭됨 !");
+    }
+
+    return (
+        <div>
+            <button onClick={ e => print("버튼 1")}>버튼1</button>
+            <button onClick={ e => print("버튼 2")}>버튼2</button>
+            <button onClick={ e => print("버튼 3")}>버튼3</button>
+        </div>
+    )
+}
+
+// this 사용과 state
+class CountApp extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            counter: 0
+        };
+    }
+    
+    addCount(addValue) {
+        this.setState({
+            counter: this.state.counter + addValue
+        });
+    }
+
+    render() {
+        return (
+            <div>
+                <h1>카운트: {this.state.counter}</h1>
+                <button onClick={ e=> this.addCount(1)}>증가</button>
+                <button onClick={ e=> this.addCount(-1)}>감소</button>
+            </div>
+        )
+    }
+}
+
+// form event (양방향 바인딩)
+class Binding extends React.Component {
+    constructor(props) {
+        super(props);
+        // state의 초기값 설정
+        this.state = {
+            value: ""
+        };
+        // event 의 set state method를 찾아서 쓰기 위해 bind()가 필요하다.
+        this.handleChange = this.handleChange.bind(this);
+    }
+
+    handleChange(event) {
+        this.setState({value: event.target.value});
+    }
+
+    initValue(val) {
+        this.setState({value: val})
+    }
+
+    render() {
+        return (
+            <div>
+                <h1>출력: {this.state.value}</h1>
+                <p>입력: <input type="text" value={this.state.value} onChange={this.handleChange} /></p>
+                <button onClick={e=>this.initValue("")}>초기화</button>
+            </div>
+        )
+    }
+}
+
+// 생명주기
+class LifeCycle extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            counter: 0
+        };
+
+        console.log("constructor");
+        debugger;
+    }
+
+    componentDidMount() {
+        console.log("componentDidMount");
+        debugger;
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        console.log("componentDidUpdate", prevProps, prevState);
+        console.log("componentDidUpdate", this.props, this.state);
+        debugger;
+    }
+
+    componentWillUnmount() {
+        console.log("componentDidmount");
+        debugger;
+    }
+    
+    addCount(addValue) {
+        this.setState({
+            counter: this.state.counter + addValue
+        });
+    }
+
+    render() {
+        console.log("render");
+        return (
+            <div>
+                <h1>카운트: {this.state.counter}</h1>
+                <button onClick={ e=> this.addCount(1)}>증가</button>
+                <button onClick={ e=> this.addCount(-1)}>감소</button>
+            </div>
+        )
+    }
+
+}
+
+// 함수형 컴포넌트
+function CountApp2() {
+    const [counter, setCounter] = useState(0);
+
+    return (
+        <div>
+            <h1>카운트: {counter}</h1>
+            <button onClick={e => setCounter(counter + 1)}>증가</button>
+            <button onClick={e => setCounter(counter - 1)}>감소</button>
+        </div>
+    )
+}
+
+
+const jsxApp = (
+    // <App2 />
+    //<CountApp />
+    // <Binding />
+    // <LifeCycle />
+    <CountApp2 />
+)
+ReactDOM.render(jsxApp, document.getElementById('root'));
 
 serviceWorker.unregister();
